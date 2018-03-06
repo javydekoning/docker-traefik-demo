@@ -1,0 +1,33 @@
+version: '3'
+services:
+  traefik:
+    image: traefik
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./traefik/traefik.toml:/traefik.toml"
+      - "./traefik/acme.json:/acme.json"
+    labels:
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:dockerdemo.javydekoning.com"
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer:latest
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./portainer:/data
+    labels:
+      - "traefik.port=9000"
+      - "traefik.frontend.rule=Host:portainer.dockerdemo.javydekoning.com"
+
+  whoami:
+    container_name: whoami
+    image: jwilder/whoami
+    labels:
+      - "traefik.port=8000"
+      - "traefik.frontend.rule=Host:app1.dockerdemo.javydekoning.com"
+      - "traefik.frontend.auth.basic=username:$$2y$$13$$dSXnrizi74xsfKH740Axt..tIiCL16GGpQn4hpX6Wtph15XGVS08u"

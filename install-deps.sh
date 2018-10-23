@@ -11,7 +11,7 @@ chkconfig docker on
 #create files and directories
 mkdir /dockerdemo/traefik -p
 touch /dockerdemo/docker-compose.yml /dockerdemo/traefik/traefik.toml /dockerdemo/traefik/acme.json
-chmod 600 acme.json
+chmod 600 /dockerdemo/traefik/acme.json
 
 #verify
 docker info
